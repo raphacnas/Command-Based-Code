@@ -7,4 +7,4 @@ This code is still in progress, but, overall, it has the purpose of making the r
 ---
 ## ❓ Where can I find the code?
 
-In order to take a look at the code, you just have to switch to master's branch, going into src/main folder and then java/frc/robot, opening Robot.java. Alternatively, you could just open [this link.](https://github.com/raphacnas/Teleop-Code/blob/master/src/main/java/frc/robot/Robot.java)
+Unlike the teleperated's, the command-based code is all over the src/main/java/frc/robot due to the way c-based works along with subsystems.
