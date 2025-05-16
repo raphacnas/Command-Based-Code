@@ -14,7 +14,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   double Rm, Lm;
 
-  /** Creates a new DriveSubsystem. */
+  /** Runs when initialized. */
   public DriveSubsystem() {
     RMot2.follow(RMot1);
     LMot2.follow(LMot1);
@@ -23,11 +23,17 @@ public class DriveSubsystem extends SubsystemBase {
     LMot1.setInverted(false);
   }
 
+  public void setMotorSpeeds(double lSpeed, double rSpeed) {
+    Lm = lSpeed;
+    Rm = rSpeed;
+
+    LMot1.set(ControlMode.PercentOutput, lSpeed);
+    RMot1.set(ControlMode.PercentOutput, rSpeed);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    RMot1.set(ControlMode.PercentOutput, Rm);
-    LMot1.set(ControlMode.PercentOutput, Lm);
   }
 }

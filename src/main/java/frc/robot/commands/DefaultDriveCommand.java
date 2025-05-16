@@ -87,8 +87,7 @@ public class DefaultDriveCommand extends Command {
       Rm = 0;
     }
 
-    RMot1.set(ControlMode.PercentOutput, Rm);
-    LMot1.set(ControlMode.PercentOutput, Lm);
+    SubSys.setMotorSpeeds(Lm, Rm);
   }
 
 //////////////////////////////////////////////////////////////
