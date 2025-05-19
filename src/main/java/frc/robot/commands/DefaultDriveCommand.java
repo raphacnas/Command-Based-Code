@@ -1,10 +1,9 @@
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -13,10 +12,10 @@ public class DefaultDriveCommand extends Command {
   private DriveSubsystem SubSys;
   private Joystick joydelicio;
 
-  private final VictorSPX RMot1 = new VictorSPX(3);
-  private final VictorSPX RMot2 = new VictorSPX(4);
-  private final VictorSPX LMot1 = new VictorSPX(1);
-  private final VictorSPX LMot2 = new VictorSPX(2);
+  private final VictorSPX RMot1 = new VictorSPX(Constants.RMot1_ID);
+  private final VictorSPX RMot2 = new VictorSPX(Constants.RMot2_ID);
+  private final VictorSPX LMot1 = new VictorSPX(Constants.LMot1_ID);
+  private final VictorSPX LMot2 = new VictorSPX(Constants.LMot2_ID);
 
   int POG;
   boolean a, b, x, analog1, analog2, toggleA,toggleB, toggleX;
@@ -52,17 +51,17 @@ public class DefaultDriveCommand extends Command {
   public void execute() {
     // Called every time the scheduler runs while the command is scheduled.
 
-    a = joydelicio.getRawButton(1);
-    b = joydelicio.getRawButton(2);
-    x = joydelicio.getRawButton(3);
+    a = joydelicio.getRawButton(Constants.ButA_ID);
+    b = joydelicio.getRawButton(Constants.ButB_ID);
+    x = joydelicio.getRawButton(Constants.ButX_ID);
 
-    x1 = joydelicio.getRawAxis(0);
-    x2 = joydelicio.getRawAxis(4);
-    y1 = joydelicio.getRawAxis(1);
-    y2 = joydelicio.getRawAxis(5);
+    x1 = joydelicio.getRawAxis(Constants.X1_ID);
+    x2 = joydelicio.getRawAxis(Constants.X2_ID);
+    y1 = joydelicio.getRawAxis(Constants.Y1_ID);
+    y2 = joydelicio.getRawAxis(Constants.Y2_ID);
 
-    Ltrig = -joydelicio.getRawAxis(3);
-    Rtrig = joydelicio.getRawAxis(2);
+    Ltrig = -joydelicio.getRawAxis(Constants.Ltrig_ID);
+    Rtrig = joydelicio.getRawAxis(Constants.Rtrig_ID);
 
     mag = Math.hypot(x1, y1);
     mag2 = Math.hypot(x2, y2);
@@ -105,9 +104,9 @@ public class DefaultDriveCommand extends Command {
 
 
   public void CalcButton() {
-    if (joydelicio.getRawButtonPressed(1)) toggleA = !toggleA;
-    if (joydelicio.getRawButtonPressed(2)) toggleB = !toggleB;
-    if (joydelicio.getRawButtonPressed(3)) toggleX = !toggleX;
+    if (joydelicio.getRawButtonPressed(Constants.ButA_ID)) toggleA = !toggleA;
+    if (joydelicio.getRawButtonPressed(Constants.ButB_ID)) toggleB = !toggleB;
+    if (joydelicio.getRawButtonPressed(Constants.ButX_ID)) toggleX = !toggleX;
 
     spdbutton = toggleA ? 0.25 : toggleB ? 0.5 : toggleX ? 1.0 : 1.0;
   }

@@ -4,13 +4,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  private final VictorSPX RMot1 = new VictorSPX(3);
-  private final VictorSPX RMot2 = new VictorSPX(4);
-  private final VictorSPX LMot1 = new VictorSPX(1);
-  private final VictorSPX LMot2 = new VictorSPX(2);
+  private final VictorSPX RMot1 = new VictorSPX(Constants.RMot1_ID);
+  private final VictorSPX RMot2 = new VictorSPX(Constants.RMot2_ID);
+  private final VictorSPX LMot1 = new VictorSPX(Constants.LMot1_ID);
+  private final VictorSPX LMot2 = new VictorSPX(Constants.LMot2_ID);
 
   double Rm, Lm;
 
@@ -32,8 +33,5 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-
-  }
+  public void periodic() {}
 }
