@@ -12,7 +12,7 @@ public class RobotContainer {
   // The container for the robot contains: subsystems, OI devices, and commands. 
   public RobotContainer() {
     SubSys = new DriveSubsystem();
-    joydelicio = new Joystick(1);
+    joydelicio = new Joystick(Constants.joydelicio_ID);
 
     DefaultDrive = new DefaultDriveCommand(SubSys, joydelicio);
     SubSys.setDefaultCommand(DefaultDrive);
