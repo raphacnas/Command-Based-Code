@@ -6,6 +6,8 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static final double Deadzone = 0.04;
+
   public static final int joydelicio_ID = 1;
 
   public static final int RMot1_ID = 3;

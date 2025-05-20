@@ -1,12 +1,12 @@
 package frc.robot;
 
-import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class RobotContainer {
   private final DriveSubsystem SubSys;
-  private DefaultDriveCommand DefaultDrive;
+  private DriveCommand DefaultDrive;
   private Joystick joydelicio;
 
   // The container for the robot contains: subsystems, OI devices, and commands. 
@@ -14,7 +14,7 @@ public class RobotContainer {
     SubSys = new DriveSubsystem();
     joydelicio = new Joystick(Constants.joydelicio_ID);
 
-    DefaultDrive = new DefaultDriveCommand(SubSys, joydelicio);
+    DefaultDrive = new DriveCommand(SubSys, joydelicio);
     SubSys.setDefaultCommand(DefaultDrive);
   }
 
