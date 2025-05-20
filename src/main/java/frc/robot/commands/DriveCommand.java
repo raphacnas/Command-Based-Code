@@ -7,7 +7,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class DefaultDriveCommand extends Command {
+public class DriveCommand extends Command {
 
   private DriveSubsystem SubSys;
   private Joystick joydelicio;
@@ -22,7 +22,7 @@ public class DefaultDriveCommand extends Command {
   double spdbutton, Lm, Rm, Ltrig, Rtrig, mag, mag2, sen, sen2, x1, x2, y1, y2;
   
   /** Creates a new DefaultDriveCommand. */
-  public DefaultDriveCommand(DriveSubsystem drive, Joystick joyzao) {
+  public DriveCommand(DriveSubsystem drive, Joystick joyzao) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.SubSys = drive;
     this.joydelicio = joyzao;
