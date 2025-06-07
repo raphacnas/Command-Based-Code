@@ -5,19 +5,16 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class RobotContainer {
-  private final DriveSubsystem SubSys;
-  private DriveCommand DefaultDrive;
-  private Joystick joydelicio;
+  private final DriveSubsystem SubSys = new DriveSubsystem();
+  private Joystick joydelicio = new Joystick(Constants.joydelicio_ID);
 
   // The container for the robot contains: subsystems, OI devices, and commands. 
   public RobotContainer() {
-    SubSys = new DriveSubsystem();
-    joydelicio = new Joystick(Constants.joydelicio_ID);
-
-    DefaultDrive = new DriveCommand(SubSys, joydelicio);
+    DriveCommand DefaultDrive = new DriveCommand(SubSys, joydelicio);
     SubSys.setDefaultCommand(DefaultDrive);
   }
 
+  
   // /////////////////////////////////////////////////////////////////////////////////////////////////////
   // /**
   //  * Use this method to define your trigger->command mappings. Triggers can be created via the

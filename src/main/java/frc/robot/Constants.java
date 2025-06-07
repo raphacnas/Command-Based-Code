@@ -8,12 +8,12 @@ public final class Constants {
 
   public static final double Deadzone = 0.04;
 
-  public static final int joydelicio_ID = 1;
+  public static final int joydelicio_ID = 0;
 
-  public static final int RMot1_ID = 3;
-  public static final int RMot2_ID = 4;
-  public static final int LMot1_ID = 1;
-  public static final int LMot2_ID = 2;
+  public static final int RMot1_ID = 2;
+  public static final int RMot2_ID = 1;
+  public static final int LMot1_ID = 3;
+  public static final int LMot2_ID = 4;
 
   public static final int ButA_ID = 1;
   public static final int ButB_ID = 2;

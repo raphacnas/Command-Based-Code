@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.MathFunctions.Calcs;
@@ -52,24 +53,12 @@ public class DriveCommand extends Command {
   @Override
   public void execute() {
     // Called every time the scheduler runs while the command is scheduled.
-
-    a = joydelicio.getRawButton(Constants.ButA_ID);
-    b = joydelicio.getRawButton(Constants.ButB_ID);
-    x = joydelicio.getRawButton(Constants.ButX_ID);
-
-    x1 = joydelicio.getRawAxis(Constants.X1_ID);
-    x2 = joydelicio.getRawAxis(Constants.X2_ID);
-    y1 = -joydelicio.getRawAxis(Constants.Y1_ID);
-    y2 = -joydelicio.getRawAxis(Constants.Y2_ID);
-
-    Ltrig = -joydelicio.getRawAxis(Constants.Ltrig_ID);
-    Rtrig = joydelicio.getRawAxis(Constants.Rtrig_ID);
-
-    POG = joydelicio.getPOV();
+    SmartDash();
+    CalcButton();
+    joyValues();
 
     Calcs.CalcMagAndSine(x1, x2, y1, y2);
-    CalcButton();
-
+    
     if (POG != -1){
       double[] PovSpeeds = Calcs.CalcPOV(POG, spdbutton);
 
@@ -88,6 +77,9 @@ public class DriveCommand extends Command {
         Lm = Calcs.CalcLTrig(Ltrig, Rtrig, spdbutton);
         Rm = Calcs.CalcRTrig(Ltrig, Rtrig, spdbutton);
       }
+
+      
+
     } SubSys.setMotorSpeeds(Lm, Rm);    
   }
 
@@ -103,8 +95,22 @@ public class DriveCommand extends Command {
     return false;
   }
 //////////////////////////////////////////////////////////////
+public void joyValues(){
+  a = joydelicio.getRawButton(Constants.ButA_ID);
+  b = joydelicio.getRawButton(Constants.ButB_ID);
+  x = joydelicio.getRawButton(Constants.ButX_ID);
 
+  x1 = joydelicio.getRawAxis(Constants.X1_ID);
+  x2 = joydelicio.getRawAxis(Constants.X2_ID);
+  y1 = -joydelicio.getRawAxis(Constants.Y1_ID);
+  y2 = -joydelicio.getRawAxis(Constants.Y2_ID);
 
+  Ltrig = -joydelicio.getRawAxis(Constants.Ltrig_ID);
+  Rtrig = joydelicio.getRawAxis(Constants.Rtrig_ID);
+
+  POG = joydelicio.getPOV();
+}
+  
   public void CalcButton() {
     if (joydelicio.getRawButtonPressed(Constants.ButA_ID)) toggleA = !toggleA;
     if (joydelicio.getRawButtonPressed(Constants.ButB_ID)) toggleB = !toggleB;
@@ -113,4 +119,17 @@ public class DriveCommand extends Command {
     spdbutton = toggleA ? 0.25 : toggleB ? 0.5 : toggleX ? 1.0 : 1.0;
   }
 
+  public void SmartDash() {
+    SmartDashboard.putBoolean("bnt B", b);
+    SmartDashboard.putBoolean("bnt A", a);
+    SmartDashboard.putBoolean("bnt X", x);
+    SmartDashboard.putNumber("spd", spdbutton);
+    SmartDashboard.putNumber("LT", Lm);
+    SmartDashboard.putNumber("RT", Rm);
+    SmartDashboard.putNumber("L_X", x1);
+    SmartDashboard.putNumber("L_Y", y1);
+    SmartDashboard.putNumber("R_X", x2);
+    SmartDashboard.putNumber("R_Y", y2);
+    SmartDashboard.putNumber("pov", POG);
+  }
 }
