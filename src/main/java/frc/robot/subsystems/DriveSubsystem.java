@@ -35,6 +35,6 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Lmot", Lm);
-    SmartDashboard.putNumber("Lmot", Rm);
+    SmartDashboard.putNumber("Rmot", Rm);
   }
 }

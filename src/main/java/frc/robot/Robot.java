@@ -1,19 +1,28 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.DriveSubsystem;
 
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private 
+  private DriveCommand DefaultDrive;
+  private DriveSubsystem SubSys;
+  private RobotContainer RobotContainer;
+  private Joystick joydelicio;
 
 
 
 @Override
 public void robotInit() {
-    
+    SubSys = new DriveSubsystem();
+    RobotContainer = new RobotContainer();
+    joydelicio = new Joystick(Constants.joydelicio_ID);
+    DefaultDrive = new DriveCommand(SubSys, joydelicio);
 }
 
   @Override
