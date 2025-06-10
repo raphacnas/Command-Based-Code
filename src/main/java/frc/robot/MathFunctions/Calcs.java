@@ -37,58 +37,63 @@ public class Calcs {
 
     // 0 = Left Motor, 1 = Right Motor
     double[] MotSpeed = new double[2];
-    boolean analog1 = true, analog2 = true;
+    boolean analog1, analog2;
     
-    if (MagAndSine[0] != 0 && !analog2) {
+    if (MagAndSine[0] != 0) {
 
       analog1 = true;
       analog2 = false;
 
-      // QUADRANTE 1
-      if (x1 >= 0 && y1 >= 0) {
-        MotSpeed[0] =  MagAndSine[0] * spdbutton;
-        MotSpeed[1] = (2 * MagAndSine[2] - 1) * MagAndSine[0] * spdbutton;
-      }
-      // QUADRANTE 2
-      else if (x1 < 0 && y1 >= 0) {
-        MotSpeed[0] = (2 * MagAndSine[2] - 1) * MagAndSine[0] * spdbutton;
-        MotSpeed[1] =  MagAndSine[0] * spdbutton;
-      }
-      // QUADRANTE 3
-      else if (x1 >= 0 && y1 < 0) {
-        MotSpeed[0] =  -MagAndSine[0] * spdbutton;
-        MotSpeed[1] = (2 * MagAndSine[2] + 1) * MagAndSine[0] * spdbutton;
-      }
-      // QUADRANTE 4
-      else if (x1 < 0 && y1 < 0) {
-        MotSpeed[0] = (2 * MagAndSine[2] + 1) * MagAndSine[0] * spdbutton;
-        MotSpeed[1] = -MagAndSine[0] * spdbutton;
-      } 
+      if (!analog2) { 
+        // QUADRANTE 1
+        if (x1 >= 0 && y1 >= 0) {
+          MotSpeed[0] =  MagAndSine[0] * spdbutton;
+          MotSpeed[1] = (2 * MagAndSine[2] - 1) * MagAndSine[0] * spdbutton;
+        }
+        // QUADRANTE 2
+        else if (x1 < 0 && y1 >= 0) {
+          MotSpeed[0] = (2 * MagAndSine[2] - 1) * MagAndSine[0] * spdbutton;
+          MotSpeed[1] =  MagAndSine[0] * spdbutton;
+        }
+        // QUADRANTE 3
+        else if (x1 >= 0 && y1 < 0) {
+          MotSpeed[0] =  -MagAndSine[0] * spdbutton;
+          MotSpeed[1] = (2 * MagAndSine[2] + 1) * MagAndSine[0] * spdbutton;
+        }
+        // QUADRANTE 4
+        else if (x1 < 0 && y1 < 0) {
+          MotSpeed[0] = (2 * MagAndSine[2] + 1) * MagAndSine[0] * spdbutton;
+          MotSpeed[1] = -MagAndSine[0] * spdbutton;
+        } 
 
-    } else if (MagAndSine[1] != 0 && !analog1) {
+      }
+    } if (MagAndSine[1] != 0) {
 
       analog1 = false;
       analog2 = true;
 
-      // QUADRANTE 1
-      if (x2 >= 0 && y2 >= 0) {
-        MotSpeed[0] = -MagAndSine[1] * spdbutton;
-        MotSpeed[1] = (2 * MagAndSine[3] + 1) * MagAndSine[1] * spdbutton;
-      }
-      // QUADRANTE 2
-      else if (x2 < 0 && y2 >= 0) {
-        MotSpeed[0] = (2 * MagAndSine[3] + 1) * MagAndSine[1] * spdbutton; 
-        MotSpeed[1] = -MagAndSine[1] * spdbutton;
-      }
-      // QUADRANTE 3
-      else if (x2 >= 0 && y2 < 0) {
-        MotSpeed[0] = MagAndSine[1] * spdbutton;
-        MotSpeed[1] = (-2 * MagAndSine[3] - 1) * MagAndSine[1] * spdbutton;
-      }
-      // QUADRANTE 4
-      else if (x2 < 0 && y2 < 0) {
-        MotSpeed[0] = (-2 * MagAndSine[3] - 1) * MagAndSine[1] * spdbutton;
-        MotSpeed[1] = MagAndSine[1] * spdbutton; 
+      if (!analog1) { 
+
+        // QUADRANTE 1
+        if (x2 >= 0 && y2 >= 0) {
+          MotSpeed[0] = -MagAndSine[1] * spdbutton;
+          MotSpeed[1] = (2 * MagAndSine[3] + 1) * MagAndSine[1] * spdbutton;
+        }
+        // QUADRANTE 2
+        else if (x2 < 0 && y2 >= 0) {
+          MotSpeed[0] = (2 * MagAndSine[3] + 1) * MagAndSine[1] * spdbutton; 
+          MotSpeed[1] = -MagAndSine[1] * spdbutton;
+        }
+        // QUADRANTE 3
+        else if (x2 >= 0 && y2 < 0) {
+          MotSpeed[0] = MagAndSine[1] * spdbutton;
+          MotSpeed[1] = (-2 * MagAndSine[3] - 1) * MagAndSine[1] * spdbutton;
+        }
+        // QUADRANTE 4
+        else if (x2 < 0 && y2 < 0) {
+          MotSpeed[0] = (-2 * MagAndSine[3] - 1) * MagAndSine[1] * spdbutton;
+          MotSpeed[1] = MagAndSine[1] * spdbutton; 
+        }
       }
     } return MotSpeed;
   }

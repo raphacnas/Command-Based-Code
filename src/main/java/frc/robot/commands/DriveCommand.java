@@ -69,16 +69,24 @@ public class DriveCommand extends Command {
 
       double[] MagAndSine = Calcs.CalcMagAndSine(x1, x2, y1, y2);
       double[] AnalogSpeeds = Calcs.CalcAnalogs(MagAndSine, spdbutton, x1, y1, x2, y2);
+      double LTrigSPD = Calcs.CalcLTrig(Ltrig, Rtrig, spdbutton);
+      double RTrigSPD = Calcs.CalcRTrig(Ltrig, Rtrig, spdbutton);
+
 
       if (AnalogSpeeds[0] != 0 || AnalogSpeeds[1] != 0) {
         Lm = AnalogSpeeds[0];
         Rm = AnalogSpeeds[1];
-      } else {
-        Lm = Calcs.CalcLTrig(Ltrig, Rtrig, spdbutton);
-        Rm = Calcs.CalcRTrig(Ltrig, Rtrig, spdbutton);
-      }
+      } 
 
-      
+      if (LTrigSPD != 0) {
+        Lm = LTrigSPD;
+        Rm = LTrigSPD;
+
+      } else if (RTrigSPD != 0) {
+        Lm = RTrigSPD;
+        Rm = RTrigSPD;
+
+      }
 
     } SubSys.setMotorSpeeds(Lm, Rm);    
   }
