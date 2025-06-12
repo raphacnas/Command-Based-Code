@@ -24,7 +24,7 @@ public final class Constants {
   public static final int Y1_ID = 1;
   public static final int Y2_ID = 5;
 
-  public static final int Rtrig_ID = 2;
-  public static final int Ltrig_ID = 3;
+  public static final int Rtrig_ID = 3;
+  public static final int Ltrig_ID = 2;
   
 }

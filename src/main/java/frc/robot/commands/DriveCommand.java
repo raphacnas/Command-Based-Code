@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,8 +22,8 @@ public class DriveCommand extends Command {
   private final VictorSPX LMot2 = new VictorSPX(Constants.LMot2_ID);
 
   int POG;
-  boolean a, b, x, toggleA,toggleB, toggleX;
-  double spdbutton, Lm, Rm, Ltrig, Rtrig, x1, x2, y1, y2;
+  boolean a, b, x;
+  double spdbutton, Lm, Rm, Ltrig, Rtrig, RTrigSPD, LTrigSPD, x1, x2, y1, y2;
   
   /** Creates a new DefaultDriveCommand. */
   public DriveCommand(DriveSubsystem drive, Joystick joyzao) {
@@ -37,14 +38,20 @@ public class DriveCommand extends Command {
   public void initialize() {
     // Called when the command is initially scheduled.
 
-    RMot2.follow(RMot1);
-    LMot2.follow(LMot1);
+    RMot1.configNeutralDeadband(Constants.Deadzone);
+    RMot2.configNeutralDeadband(Constants.Deadzone);
+    LMot1.configNeutralDeadband(Constants.Deadzone);
+    LMot2.configNeutralDeadband(Constants.Deadzone);
 
     RMot1.setInverted(true);
+    RMot2.setInverted(true);
     LMot1.setInverted(false);
+    LMot2.setInverted(false);
 
-    RMot1.configNeutralDeadband(Constants.Deadzone);
-    LMot1.configNeutralDeadband(Constants.Deadzone);
+    RMot1.setNeutralMode(NeutralMode.Brake);
+    RMot2.setNeutralMode(NeutralMode.Brake);
+    LMot1.setNeutralMode(NeutralMode.Brake);
+    LMot2.setNeutralMode(NeutralMode.Brake);
 
     spdbutton = 1; Ltrig = 0; Rtrig = 0; Lm = 0; Rm = 0;
   }
@@ -69,24 +76,25 @@ public class DriveCommand extends Command {
 
       double[] MagAndSine = Calcs.CalcMagAndSine(x1, x2, y1, y2);
       double[] AnalogSpeeds = Calcs.CalcAnalogs(MagAndSine, spdbutton, x1, y1, x2, y2);
-      double LTrigSPD = Calcs.CalcLTrig(Ltrig, Rtrig, spdbutton);
-      double RTrigSPD = Calcs.CalcRTrig(Ltrig, Rtrig, spdbutton);
 
+      if (Ltrig >= Constants.Deadzone && Rtrig <= Constants.Deadzone) {
+        LTrigSPD = Calcs.CalcLTrig(Ltrig, Rtrig, spdbutton);
+
+        Lm = LTrigSPD;
+        Rm = LTrigSPD;
+
+      } if (Rtrig >= Constants.Deadzone && Rtrig <= Constants.Deadzone) {
+        RTrigSPD = Calcs.CalcRTrig(Ltrig, Rtrig, spdbutton);
+
+        Lm = RTrigSPD;
+        Rm = RTrigSPD;
+      }
 
       if (AnalogSpeeds[0] != 0 || AnalogSpeeds[1] != 0) {
         Lm = AnalogSpeeds[0];
         Rm = AnalogSpeeds[1];
-      } 
-
-      if (LTrigSPD != 0) {
-        Lm = LTrigSPD;
-        Rm = LTrigSPD;
-
-      } else if (RTrigSPD != 0) {
-        Lm = RTrigSPD;
-        Rm = RTrigSPD;
-
       }
+
 
     } SubSys.setMotorSpeeds(Lm, Rm);    
   }
@@ -120,24 +128,27 @@ public void joyValues(){
 }
   
   public void CalcButton() {
-    if (joydelicio.getRawButtonPressed(Constants.ButA_ID)) toggleA = !toggleA;
-    if (joydelicio.getRawButtonPressed(Constants.ButB_ID)) toggleB = !toggleB;
-    if (joydelicio.getRawButtonPressed(Constants.ButX_ID)) toggleX = !toggleX;
 
-    spdbutton = toggleA ? 0.25 : toggleB ? 0.5 : toggleX ? 1.0 : 1.0;
+    if(joydelicio.getRawButton(Constants.ButA_ID)) {
+      spdbutton = 0.25;
+    } if (joydelicio.getRawButton(Constants.ButB_ID)) {
+      spdbutton = 0.5;
+    } if (joydelicio.getRawButton(Constants.ButX_ID)) {
+      spdbutton = 1;
+    }
   }
 
   public void SmartDash() {
-    SmartDashboard.putBoolean("bnt B", b);
-    SmartDashboard.putBoolean("bnt A", a);
-    SmartDashboard.putBoolean("bnt X", x);
-    SmartDashboard.putNumber("spd", spdbutton);
-    SmartDashboard.putNumber("LT", Lm);
-    SmartDashboard.putNumber("RT", Rm);
-    SmartDashboard.putNumber("L_X", x1);
-    SmartDashboard.putNumber("L_Y", y1);
-    SmartDashboard.putNumber("R_X", x2);
-    SmartDashboard.putNumber("R_Y", y2);
-    SmartDashboard.putNumber("pov", POG);
+    SmartDashboard.putBoolean("btn B", b);
+    SmartDashboard.putBoolean("btn A", a);
+    SmartDashboard.putBoolean("btn X", x);
+    SmartDashboard.putNumber("Btn Spd", spdbutton);
+    SmartDashboard.putNumber("LTrig", LTrigSPD);
+    SmartDashboard.putNumber("RTrig", RTrigSPD);
+    SmartDashboard.putNumber("Left_X", x1);
+    SmartDashboard.putNumber("Left_Y", y1);
+    SmartDashboard.putNumber("Right_X", x2);
+    SmartDashboard.putNumber("Right_Y", y2);
+    SmartDashboard.putNumber("POV", POG);
   }
 }

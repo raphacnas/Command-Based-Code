@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,11 +18,21 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Runs when initialized. */
   public DriveSubsystem() {
-    RMot2.follow(RMot1);
-    LMot2.follow(LMot1);
+
+    RMot1.configNeutralDeadband(Constants.Deadzone);
+    RMot2.configNeutralDeadband(Constants.Deadzone);
+    LMot1.configNeutralDeadband(Constants.Deadzone);
+    LMot2.configNeutralDeadband(Constants.Deadzone);
 
     RMot1.setInverted(true);
+    RMot2.setInverted(true);
     LMot1.setInverted(false);
+    LMot2.setInverted(false);
+
+    RMot1.setNeutralMode(NeutralMode.Brake);
+    RMot2.setNeutralMode(NeutralMode.Brake);
+    LMot1.setNeutralMode(NeutralMode.Brake);
+    LMot2.setNeutralMode(NeutralMode.Brake);
   }
 
   public void setMotorSpeeds(double lSpeed, double rSpeed) {
@@ -29,7 +40,9 @@ public class DriveSubsystem extends SubsystemBase {
     Rm = rSpeed;
 
     LMot1.set(ControlMode.PercentOutput, lSpeed);
+    LMot2.set(ControlMode.PercentOutput, lSpeed);
     RMot1.set(ControlMode.PercentOutput, rSpeed);
+    RMot2.set(ControlMode.PercentOutput, rSpeed);
   }
 
   @Override
