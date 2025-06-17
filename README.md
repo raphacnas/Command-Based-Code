@@ -11,16 +11,16 @@ The code, which is inside the ```/robot``` subfolder, has the following attribut
 
 📦 Command-Based-Code
 
-├── 📂 Commands  
+├── 📂 Commands  `# All robot actions` <br>
 │   └── 📄 Drive Command  
-├── 📂 Math Functions  
+├── 📂 Math Functions  `# Utilities/calculations` <br>
 │   └── 📄 Calcs (Calculations) <br>
-└── 📂 Subsystems  
-&emsp;&emsp;├── 📄 Drive Subsystem  
-&emsp;&emsp;├── 📄 Constants  
-&emsp;&emsp;├── 📄 Main  
-&emsp;&emsp;├── 📄 Robot  
-&emsp;&emsp;└── 📄 Robot Container  
+└── 📂 Subsystems  `# Hardware abstractions` <br>
+&emsp;&emsp;├── 📄 Drive Subsystem  `# Drivetrain control` <br>
+&emsp;&emsp;├── 📄 Constants  `# Configs (motors and joystick's IDs)` <br>
+&emsp;&emsp;├── 📄 Main  `# Entry point` <br>
+&emsp;&emsp;├── 📄 Robot  `# Main robot class` <br>
+&emsp;&emsp;└── 📄 Robot Container  `# Command bindings` 
 
 <br>
 
