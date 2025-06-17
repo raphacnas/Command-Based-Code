@@ -22,11 +22,11 @@ public class Calcs {
     }
 
     public double CalcLTrig(double Ltrig, double Rtrig, double spdbutton) {
-        return (Ltrig <= Constants.Deadzone && Rtrig >= Constants.Deadzone) ? Ltrig * spdbutton : 0;
+        return (Ltrig < -Constants.Deadzone && Rtrig <= Constants.Deadzone) ? Ltrig * spdbutton : 0;
     }
 
     public double CalcRTrig(double Ltrig, double Rtrig, double spdbutton) {
-        return (Rtrig <= Constants.Deadzone && Ltrig >= Constants.Deadzone) ? Rtrig * spdbutton : 0;
+        return (Rtrig > Constants.Deadzone && Ltrig >= -Constants.Deadzone) ? Rtrig * spdbutton : 0;
     }
   
     public double[] CalcAnalogs(double[] MagAndSine, double spdbutton, double x1, double y1, double x2, double y2) {
@@ -44,7 +44,7 @@ public class Calcs {
         if (LeftAnalog) {
             if (x1 >= 0 && y1 >= 0) {
                 MotSpeed[0] = MagAndSine[0] * spdbutton;
-                MotSpeed[1] = MagAndSine[2] * MagAndSine[0] * spdbutton;
+                MotSpeed[1] = (2 * MagAndSine[2] - 1) * MagAndSine[0] * spdbutton;
             }
             else if (x1 < 0 && y1 >= 0) {
                 MotSpeed[0] = (2 * MagAndSine[2] - 1) * MagAndSine[0] * spdbutton;
@@ -55,32 +55,32 @@ public class Calcs {
                 MotSpeed[1] = (2 * MagAndSine[2] + 1) * MagAndSine[0] * spdbutton;
             }
             else if (x1 < 0 && y1 < 0) {
-                MotSpeed[0] = MagAndSine[2] * MagAndSine[0] * spdbutton;
+                MotSpeed[0] = (2 * MagAndSine[2] - 1) * MagAndSine[0] * spdbutton;
                 MotSpeed[1] = -MagAndSine[0] * spdbutton;
             }
         } 
         else if (RightAnalog) {
             if (x2 >= 0 && y2 >= 0) {
-                MotSpeed[0] = -MagAndSine[3] * MagAndSine[1] * spdbutton;
+                MotSpeed[0] = (-2 * MagAndSine[3] + 1) * MagAndSine[1] * spdbutton;
                 MotSpeed[1] = -MagAndSine[1] * spdbutton;
             }
             else if (x2 < 0 && y2 >= 0) {
                 MotSpeed[0] = -MagAndSine[1] * spdbutton;
-                MotSpeed[1] = -MagAndSine[3] * MagAndSine[1] * spdbutton;
+                MotSpeed[1] = (-2 * MagAndSine[3] + 1) * MagAndSine[1] * spdbutton;
             }
             else if (x2 >= 0 && y2 < 0) {
-                MotSpeed[0] = -MagAndSine[3] * MagAndSine[1] * spdbutton;
+                MotSpeed[0] = (-2 * MagAndSine[3] - 1) * MagAndSine[1] * spdbutton;
                 MotSpeed[1] = MagAndSine[1] * spdbutton;
             }
             else if (x2 < 0 && y2 < 0) {
                 MotSpeed[0] = MagAndSine[1] * spdbutton;
-                MotSpeed[1] = -MagAndSine[3] * MagAndSine[1] * spdbutton;
+                MotSpeed[1] = (-2 * MagAndSine[3] - 1)  * MagAndSine[1] * spdbutton;
             }
         }
         
         return MotSpeed;
     }
-
+    
     public double[] CalcPOV(int POG, double spdbutton) {
         double[] MotSpeed = new double[2];
         

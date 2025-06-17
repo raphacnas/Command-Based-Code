@@ -23,7 +23,7 @@ public class DriveCommand extends Command {
 
   int POG;
   boolean a, b, x;
-  double spdbutton, Lm, Rm, Ltrig, Rtrig, RTrigSPD, LTrigSPD, x1, x2, y1, y2;
+  double spdbutton, Lm, Rm, Ltrig, Rtrig, x1, x2, y1, y2;
   
   /** Creates a new DefaultDriveCommand. */
   public DriveCommand(DriveSubsystem drive, Joystick joyzao) {
@@ -72,23 +72,22 @@ public class DriveCommand extends Command {
       Lm = PovSpeeds[0];
       Rm = PovSpeeds[1];
 
+    } else if (Ltrig < -Constants.Deadzone && Rtrig <= Constants.Deadzone) {
+      Ltrig = Calcs.CalcLTrig(Ltrig, Rtrig, spdbutton);
+
+      Lm = Ltrig;
+      Rm = Ltrig;
+
+    } else if (Rtrig > Constants.Deadzone && Ltrig >= -Constants.Deadzone) {
+      Rtrig = Calcs.CalcRTrig(Ltrig, Rtrig, spdbutton);
+
+      Lm = Rtrig;
+      Rm = Rtrig;
+
     } else {
 
       double[] MagAndSine = Calcs.CalcMagAndSine(x1, x2, y1, y2);
       double[] AnalogSpeeds = Calcs.CalcAnalogs(MagAndSine, spdbutton, x1, y1, x2, y2);
-
-      if (Ltrig >= Constants.Deadzone && Rtrig <= Constants.Deadzone) {
-        LTrigSPD = Calcs.CalcLTrig(Ltrig, Rtrig, spdbutton);
-
-        Lm = LTrigSPD;
-        Rm = LTrigSPD;
-
-      } if (Rtrig >= Constants.Deadzone && Rtrig <= Constants.Deadzone) {
-        RTrigSPD = Calcs.CalcRTrig(Ltrig, Rtrig, spdbutton);
-
-        Lm = RTrigSPD;
-        Rm = RTrigSPD;
-      }
 
       if (AnalogSpeeds[0] != 0 || AnalogSpeeds[1] != 0) {
         Lm = AnalogSpeeds[0];
@@ -143,8 +142,8 @@ public void joyValues(){
     SmartDashboard.putBoolean("btn A", a);
     SmartDashboard.putBoolean("btn X", x);
     SmartDashboard.putNumber("Btn Spd", spdbutton);
-    SmartDashboard.putNumber("LTrig", LTrigSPD);
-    SmartDashboard.putNumber("RTrig", RTrigSPD);
+    SmartDashboard.putNumber("LTrig", Ltrig);
+    SmartDashboard.putNumber("RTrig", Rtrig);
     SmartDashboard.putNumber("Left_X", x1);
     SmartDashboard.putNumber("Left_Y", y1);
     SmartDashboard.putNumber("Right_X", x2);
