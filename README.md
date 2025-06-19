@@ -5,7 +5,7 @@
 <br>
 
 ---
-# 👨‍💻 Code's organization 
+# 👨‍💻 Code's Organization 
 
 The code, which is inside the ```/robot``` subfolder, has the following attributes and commands: <br><br>
 
@@ -25,8 +25,13 @@ The code, which is inside the ```/robot``` subfolder, has the following attribut
 <br>
 
 ---
+# 🧠 Code's Logic
+
+The overall logic behind the code hasn't changed much since the Teleoperated version of it, so it works based on the WPILIB library and functions. In the early moments of this code, it has nothing but the teleoperated driving system alone, so, i'll attach to this topic the Teleoperated repositorie README file, which explains the math and the purposes of each functionality in the code.
+
+👉Click [here](https://github.com/raphacnas/Teleop-Code/blob/master/README.md) to get to the README file! 👈
+
+---
 ## ❓ Where can I find the code?
 
-Unlike the teleoperated's, the command-based code is all over the src/main/java/frc/robot due to the way it is meant to work like.
-
-👉 Click [here](https://github.com/raphacnas/Command-Based-Code/tree/master/src/main/java/frc/robot) to get there! 👈
+Unlike the teleoperated's, the command-based code has many .java files working along with each other, and they can be found in the [```src/main/java/frc/robot```](https://github.com/raphacnas/Command-Based-Code/tree/master/src/main/java/frc/robot) folder.
