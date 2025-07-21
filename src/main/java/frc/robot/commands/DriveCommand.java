@@ -13,7 +13,6 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DriveCommand extends Command {
 
   private DriveSubsystem SubSys;
-  private final Calcs Calcs = new Calcs();
   private Joystick joydelicio;
 
   private final VictorSPX RMot1 = new VictorSPX(Constants.RMot1_ID);
@@ -24,6 +23,8 @@ public class DriveCommand extends Command {
   int POG;
   boolean a, b, x;
   double spdbutton, Lm, Rm, Ltrig, Rtrig, x1, x2, y1, y2;
+
+  private final Calcs Calcs = new Calcs(x1, x2, y1, y2, Ltrig, Rtrig);
   
   /** Creates a new DefaultDriveCommand. */
   public DriveCommand(DriveSubsystem drive, Joystick joyzao) {
@@ -36,7 +37,6 @@ public class DriveCommand extends Command {
 
   @Override
   public void initialize() {
-    // Called when the command is initially scheduled.
 
     RMot1.configNeutralDeadband(Constants.Deadzone);
     RMot2.configNeutralDeadband(Constants.Deadzone);
@@ -77,6 +77,7 @@ public class DriveCommand extends Command {
 
       Lm = Ltrig;
       Rm = Ltrig;
+      
 
     } else if (Rtrig > Constants.Deadzone && Ltrig >= -Constants.Deadzone) {
       Rtrig = Calcs.CalcRTrig(Ltrig, Rtrig, spdbutton);
@@ -94,7 +95,6 @@ public class DriveCommand extends Command {
         Rm = AnalogSpeeds[1];
       }
 
-
     } SubSys.setMotorSpeeds(Lm, Rm);    
   }
 
@@ -110,18 +110,19 @@ public class DriveCommand extends Command {
     return false;
   }
 //////////////////////////////////////////////////////////////
+
 public void joyValues(){
   a = joydelicio.getRawButton(Constants.ButA_ID);
   b = joydelicio.getRawButton(Constants.ButB_ID);
   x = joydelicio.getRawButton(Constants.ButX_ID);
 
-  x1 = joydelicio.getRawAxis(Constants.X1_ID);
-  x2 = joydelicio.getRawAxis(Constants.X2_ID);
-  y1 = -joydelicio.getRawAxis(Constants.Y1_ID);
-  y2 = -joydelicio.getRawAxis(Constants.Y2_ID);
+  this.x1 = joydelicio.getRawAxis(Constants.X1_ID);
+  this.x2 = joydelicio.getRawAxis(Constants.X2_ID);
+  this.y1 = joydelicio.getRawAxis(Constants.Y1_ID);
+  this.y2 = joydelicio.getRawAxis(Constants.Y2_ID);
 
-  Ltrig = -joydelicio.getRawAxis(Constants.Ltrig_ID);
-  Rtrig = joydelicio.getRawAxis(Constants.Rtrig_ID);
+  this.Ltrig = joydelicio.getRawAxis(Constants.Ltrig_ID);
+  this.Rtrig = joydelicio.getRawAxis(Constants.Rtrig_ID);
 
   POG = joydelicio.getPOV();
 }
@@ -138,16 +139,17 @@ public void joyValues(){
   }
 
   public void SmartDash() {
-    SmartDashboard.putBoolean("btn B", b);
-    SmartDashboard.putBoolean("btn A", a);
-    SmartDashboard.putBoolean("btn X", x);
-    SmartDashboard.putNumber("Btn Spd", spdbutton);
-    SmartDashboard.putNumber("LTrig", Ltrig);
-    SmartDashboard.putNumber("RTrig", Rtrig);
-    SmartDashboard.putNumber("Left_X", x1);
-    SmartDashboard.putNumber("Left_Y", y1);
-    SmartDashboard.putNumber("Right_X", x2);
-    SmartDashboard.putNumber("Right_Y", y2);
-    SmartDashboard.putNumber("POV", POG);
+
+    SmartDashboard.putNumber("1 - Btn Spd", spdbutton);
+    SmartDashboard.putBoolean("2 - btn A", a);
+    SmartDashboard.putBoolean("3 - btn B", b);
+    SmartDashboard.putBoolean("4 - btn X", x);
+    SmartDashboard.putNumber("5 - POV", POG);
+    SmartDashboard.putNumber("6 - LTrig", Ltrig);
+    SmartDashboard.putNumber("7 - RTrig", Rtrig);
+    SmartDashboard.putNumber("** - Left_X", x1);
+    SmartDashboard.putNumber("** - Left_Y", y1);
+    SmartDashboard.putNumber("** - Right_X", x2);
+    SmartDashboard.putNumber("** - Right_Y", y2);
   }
 }

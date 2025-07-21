@@ -1,10 +1,25 @@
 package frc.robot.MathFunctions;
 
+import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants;
 
 public class Calcs {
     private boolean LeftAnalog = true;
     private boolean RightAnalog = false;
+    private Joystick joydelicio;
+    private double x1, x2, y1,y2, ltrig, rtrig;
+            
+
+    public Calcs(double x1, double x2, double y1, double y2, double ltrig, double rtrig) {
+    this.x1 = x1;
+    this.x2 = x2;
+    this.y1 = -y1;
+    this.y2 = -y2;
+
+    this.ltrig = ltrig;
+    this.rtrig = rtrig;
+
+    }
 
     public double[] CalcMagAndSine(double x1, double x2, double y1, double y2) {
         double MagAndSine[] = new double[4];
@@ -55,7 +70,7 @@ public class Calcs {
                 MotSpeed[1] = (2 * MagAndSine[2] + 1) * MagAndSine[0] * spdbutton;
             }
             else if (x1 < 0 && y1 < 0) {
-                MotSpeed[0] = (2 * MagAndSine[2] - 1) * MagAndSine[0] * spdbutton;
+                MotSpeed[0] = (2 * MagAndSine[2] + 1) * MagAndSine[0] * spdbutton;
                 MotSpeed[1] = -MagAndSine[0] * spdbutton;
             }
         } 
