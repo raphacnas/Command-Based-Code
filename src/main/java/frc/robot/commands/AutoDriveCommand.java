@@ -1,26 +1,20 @@
 package frc.robot.commands;
 
-import java.util.TooManyListenersException;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoDriveCommand extends Command {
 
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
   private DriveSubsystem SubSys;
   private final double distance;
   Timer timer = new Timer();
 
-  double tx, ty, ta;
+  double tx, tv, ta, Rm, Lm;
 
   public AutoDriveCommand(DriveSubsystem SubSys, double distance) {
 
@@ -36,25 +30,50 @@ public class AutoDriveCommand extends Command {
   @Override
   public void execute() {
     timer.start();
+    SubSys.setMotorSpeeds(Rm, Lm);
    
     if (timer.get() < 3){
-      SubSys.setMotorSpeeds(distance, distance);
+      Rm = distance; Lm = distance;
     } else {
-      SubSys.setMotorSpeeds(0, 0);
       limelight();
     }
+
+    SmartDashboard();
   }
 
   public void limelight() {
-    tx = table.getEntry("tx").getDouble(0.0);
-    ty = table.getEntry("ty").getDouble(0.0);
-    ta = table.getEntry("ta").getDouble(0.0);
+    tx = limelight.getEntry("tx").getDouble(0.0);
+    ta = limelight.getEntry("ta").getDouble(0.0);
+    tv = limelight.getEntry("tv").getDouble(0.0);
 
-    SmartDashboard.putNumber("*** - Tx", tx);
-    SmartDashboard.putNumber("*** - Ty", ty);
-    SmartDashboard.putNumber("*** - Ta", ta);
+    // Ajustes finos
+    double rot_percent = 0.01;     
+    double fwd_percent = 0.2;      
+    double targetArea = 5;  
+
+    if (tv == 0) { 
+
+      Rm = 0.25;
+      Lm = -0.28; 
+
+    } else {
+
+      double rot = rot_percent * tx; 
+      double forward = fwd_percent * (targetArea - ta);
+    
+      forward = Math.max(-0.6, Math.min(forward, 0.6));
+      rot = Math.max(-0.4, Math.min(rot, 0.4));
+    
+      Lm = forward + rot;
+      Rm = forward - rot;
+    }
   }
 
+  public void SmartDashboard() {
+    SmartDashboard.putNumber("** - Tx", tx);
+    SmartDashboard.putNumber("** - Ta", ta);
+    SmartDashboard.putNumber("** - Tv", tv);
+  }
   @Override
   public void end(boolean interrupted) {}
 
