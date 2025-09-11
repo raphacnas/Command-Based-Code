@@ -12,7 +12,7 @@ The code, which is inside the ```/robot``` subfolder, has the following attribut
 📦 Command-Based-Code
 
 ├── 📂 Commands  `# All robot actions` <br>
-│   ├── 📄 Drive Command  `# Teleoperated Command`
+│   ├── 📄 Drive Command  `# Teleoperated Command` <br>
 │   └── 📄 Auto Drive Command `# Autonomous Command`
 ├── 📂 Math Functions  `# Utilities/calculations` <br>
 │   └── 📄 Calcs (Calculations) <br>
