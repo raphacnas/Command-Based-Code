@@ -1,31 +1,41 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.TimedRobot;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.AutoDriveCommand;
-import frc.robot.commands.DriveCommand;
-import frc.robot.subsystems.DriveSubsystem;
 
+public class Robot extends LoggedRobot {
 
-public class Robot extends TimedRobot {
-
-  private AutoDriveCommand autodrive;
-  private DriveCommand DefaultDrive;
-  private DriveSubsystem SubSys;
+  private Command autodrive;
   private RobotContainer RobotContainer;
-  private Joystick joydelicio;
 
-
-
-@Override
-public void robotInit() {
-    SubSys = new DriveSubsystem();
-    RobotContainer = new RobotContainer();
-    joydelicio = new Joystick(Constants.joydelicio_ID);
-    DefaultDrive = new DriveCommand(SubSys, joydelicio);
-}
+  @Override
+  public void robotInit() {
+      RobotContainer = new RobotContainer();
+      
+      Logger.recordMetadata("ProjectName", "Binga");
+      Logger.recordMetadata("RuntimeType", RobotBase.getRuntimeType().toString());
+  
+      if (RobotBase.isSimulation()) {
+          Logger.addDataReceiver(new WPILOGWriter("logs")); // Caminho relativo
+          Logger.addDataReceiver(new NT4Publisher());
+      } else {
+          Logger.addDataReceiver(new WPILOGWriter("logs")); // Caminho relativo
+          Logger.addDataReceiver(new NT4Publisher());
+      }
+  
+      try {
+          Logger.start();
+      } catch (Exception e) {
+          e.printStackTrace();
+          System.out.println("Failed to start AdvantageKit Logger. Check directory permissions or configuration.");
+      }
+  }
 
   @Override
   public void robotPeriodic() {
@@ -40,7 +50,7 @@ public void robotInit() {
 
   @Override
   public void autonomousInit() {
-    autodrive = new AutoDriveCommand(SubSys, 0.2);
+    autodrive = RobotContainer.getAutonomousCommand();
 
     if (autodrive != null) {
       autodrive.schedule();

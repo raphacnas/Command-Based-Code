@@ -35,13 +35,13 @@ public class AutoDriveCommand extends Command {
     if (timer.get() < 3){
       Rm = distance; Lm = distance;
     } else {
-      limelight();
+      TagFollower();
     }
 
     SmartDashboard();
   }
 
-  public void limelight() {
+  public void TagFollower() {
     tx = limelight.getEntry("tx").getDouble(0.0);
     ta = limelight.getEntry("ta").getDouble(0.0);
     tv = limelight.getEntry("tv").getDouble(0.0);
