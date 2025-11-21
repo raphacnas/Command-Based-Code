@@ -1,9 +1,4 @@
 {
-  "FMS": {
-    "window": {
-      "visible": false
-    }
-  },
   "keyboardJoysticks": [
     {
       "axisConfig": [
@@ -96,9 +91,7 @@
   ],
   "robotJoysticks": [
     {
-      "guid": "030000003a0900003325000011010000"
-    },
-    {
+      "guid": "030000006d0400001dc2000014400000",
       "useGamepad": true
     }
   ]

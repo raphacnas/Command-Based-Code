@@ -63,8 +63,6 @@ public class DriveCommand extends Command {
     SmartDash();
     CalcButton();
     joyValues();
-
-    Calcs.CalcMagAndSine(x1, x2, y1, y2);
     
     if (POG != -1){
       double[] PovSpeeds = Calcs.CalcPOV(POG, spdbutton);
@@ -87,8 +85,8 @@ public class DriveCommand extends Command {
 
     } else {
 
-      double[] MagAndSine = Calcs.CalcMagAndSine(x1, x2, y1, y2);
-      double[] AnalogSpeeds = Calcs.CalcAnalogs(MagAndSine, spdbutton, x1, y1, x2, y2);
+      double[] MagAndSine = Calcs.CalcMagAndSine(-x1, x2, y1, -y2);
+      double[] AnalogSpeeds = Calcs.CalcAnalogs(MagAndSine, spdbutton, -x1, y1, x2, -y2);
 
       if (AnalogSpeeds[0] != 0 || AnalogSpeeds[1] != 0) {
         Lm = AnalogSpeeds[0];

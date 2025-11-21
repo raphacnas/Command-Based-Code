@@ -67,6 +67,7 @@ public class DriveSubsystem extends SubsystemBase {
     odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), afonsoL.getDistance(), afonsoR.getDistance());
 
     // Agora você pode chamar resetOdometry
+    
     resetOdometry(new Pose2d());
 
     RMot2.follow(RMot1);

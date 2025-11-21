@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends LoggedRobot {
 
   private Command autodrive;
-  private RobotContainer RobotContainer;
+  private RobotContainer robotContainer;
 
   @Override
   public void robotInit() {
-      RobotContainer = new RobotContainer();
+      robotContainer = new RobotContainer();
       
       Logger.recordMetadata("ProjectName", "Binga");
       Logger.recordMetadata("RuntimeType", RobotBase.getRuntimeType().toString());
@@ -24,12 +24,7 @@ public class Robot extends LoggedRobot {
       if (RobotBase.isSimulation()) {
           Logger.addDataReceiver(new WPILOGWriter("logs")); // Caminho relativo
           Logger.addDataReceiver(new NT4Publisher());
-      } else {
-          Logger.addDataReceiver(new WPILOGWriter("logs")); // Caminho relativo
-          Logger.addDataReceiver(new NT4Publisher());
-      }
-  
-      try {
+      } try {
           Logger.start();
       } catch (Exception e) {
           e.printStackTrace();
@@ -50,7 +45,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void autonomousInit() {
-    autodrive = RobotContainer.getAutonomousCommand();
+    autodrive = robotContainer.getAutonomousCommand();
 
     if (autodrive != null) {
       autodrive.schedule();
@@ -85,5 +80,7 @@ public class Robot extends LoggedRobot {
   public void simulationInit() {}
 
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+    robotContainer.simulationPeriodic();
+  }
 }
