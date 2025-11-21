@@ -23,7 +23,7 @@ public class VisionSimSubsystem extends SubsystemBase {
   // Transformo que posiciona a “afonsoCamera” no robô
   private final Transform3d cameraTransform =
       new Transform3d(
-          new Translation3d(-0.20, 0.60, 0.40),   // X,Y,Z em metros
+          new Translation3d(-0.20, 0, 0.40),   // X,Y,Z em metros
           new Rotation3d(0.0, Math.toRadians(25), 0.0) // Pitch 25°
       );
 

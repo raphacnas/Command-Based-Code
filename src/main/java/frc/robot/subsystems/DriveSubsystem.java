@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import org.littletonrobotics.junction.Logger;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -18,7 +17,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.simulation.ADXRS450_GyroSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
@@ -26,7 +24,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -35,8 +32,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   private EncoderSim afonsoRSIM;
   private EncoderSim afonsoLSIM;
-  private double debugX = 0.0;
-  public double _lastTime = 0.0;
 
   private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
   public ADXRS450_GyroSim gyroSim = new ADXRS450_GyroSim(gyro);
@@ -114,8 +109,6 @@ public class DriveSubsystem extends SubsystemBase {
       driveSim.setInputs(RMot1.get() * 12, LMot1.get() * 12);
       driveSim.update(0.02);
 
-      Pose3d CurrentRobotPose = getPose3D();
-
       afonsoLSIM.setDistance(driveSim.getLeftPositionMeters());
       afonsoRSIM.setDistance(driveSim.getRightPositionMeters());
 
@@ -182,16 +175,6 @@ public class DriveSubsystem extends SubsystemBase {
     field.setRobotPose(pose);
 
     poseEntry.setDoubleArray(new double[] {pose.getX(), pose.getY(), pose.getRotation().getDegrees()});
-
-    if (pose.getX() != debugX) {
-      debugX = pose.getX();
-      double now = Timer.getFPGATimestamp();
-      if (now != _lastTime) {
-        double rate = 1.0 /(now - _lastTime);
-      }
-      _lastTime = now;
-    }
-
      Pose3d pose3d = new Pose3d(
       pose.getX(),
       pose.getY(),

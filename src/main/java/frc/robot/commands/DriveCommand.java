@@ -24,7 +24,7 @@ public class DriveCommand extends Command {
   boolean a, b, x;
   double spdbutton, Lm, Rm, Ltrig, Rtrig, x1, x2, y1, y2;
 
-  private final Calcs Calcs = new Calcs(x1, x2, y1, y2, Ltrig, Rtrig);
+  private final Calcs Calcs = new Calcs();
   
   /** Creates a new DefaultDriveCommand. */
   public DriveCommand(DriveSubsystem drive, Joystick joyzao) {
@@ -85,8 +85,8 @@ public class DriveCommand extends Command {
 
     } else {
 
-      double[] MagAndSine = Calcs.CalcMagAndSine(-x1, x2, y1, -y2);
-      double[] AnalogSpeeds = Calcs.CalcAnalogs(MagAndSine, spdbutton, -x1, y1, x2, -y2);
+      double[] MagAndSine = Calcs.CalcMagAndSine(x1, x2, y1, y2);
+      double[] AnalogSpeeds = Calcs.CalcAnalogs(MagAndSine, spdbutton, x1, x2, y1, y2);
 
       if (AnalogSpeeds[0] != 0 || AnalogSpeeds[1] != 0) {
         Lm = AnalogSpeeds[0];
@@ -115,8 +115,8 @@ public void joyValues(){
   x = joydelicio.getRawButton(Constants.ButX_ID);
 
   this.x1 = joydelicio.getRawAxis(Constants.X1_ID);
-  this.x2 = joydelicio.getRawAxis(Constants.X2_ID);
-  this.y1 = joydelicio.getRawAxis(Constants.Y1_ID);
+  this.x2 = -joydelicio.getRawAxis(Constants.X2_ID);
+  this.y1 = -joydelicio.getRawAxis(Constants.Y1_ID);
   this.y2 = joydelicio.getRawAxis(Constants.Y2_ID);
 
   this.Ltrig = joydelicio.getRawAxis(Constants.Ltrig_ID);

@@ -1,25 +1,10 @@
 package frc.robot.MathFunctions;
 
-import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants;
 
 public class Calcs {
     private boolean LeftAnalog = true;
     private boolean RightAnalog = false;
-    private Joystick joydelicio;
-    private double x1, x2, y1,y2, ltrig, rtrig;
-            
-
-    public Calcs(double x1, double x2, double y1, double y2, double ltrig, double rtrig) {
-    this.x1 = x1;
-    this.x2 = x2;
-    this.y1 = y1;
-    this.y2 = y2;
-
-    this.ltrig = ltrig;
-    this.rtrig = rtrig;
-
-    }
 
     public double[] CalcMagAndSine(double x1, double x2, double y1, double y2) {
         double MagAndSine[] = new double[4];
@@ -44,7 +29,7 @@ public class Calcs {
         return (Rtrig > Constants.Deadzone && Ltrig >= -Constants.Deadzone) ? Rtrig * spdbutton : 0;
     }
   
-    public double[] CalcAnalogs(double[] MagAndSine, double spdbutton, double x1, double y1, double x2, double y2) {
+    public double[] CalcAnalogs(double[] MagAndSine, double spdbutton, double x1, double x2, double y1, double y2) {
         double[] MotSpeed = new double[2];
         
         if (MagAndSine[0] > 0.04) {
@@ -76,20 +61,20 @@ public class Calcs {
         } 
         else if (RightAnalog) {
             if (x2 >= 0 && y2 >= 0) {
-                MotSpeed[0] = (-2 * MagAndSine[3] + 1) * MagAndSine[1] * spdbutton;
-                MotSpeed[1] = -MagAndSine[1] * spdbutton;
+                MotSpeed[0] = MagAndSine[1] * spdbutton;
+                MotSpeed[1] = (2 * MagAndSine[3] - 1) * MagAndSine[1] * spdbutton;
             }
             else if (x2 < 0 && y2 >= 0) {
-                MotSpeed[0] = -MagAndSine[1] * spdbutton;
-                MotSpeed[1] = (-2 * MagAndSine[3] + 1) * MagAndSine[1] * spdbutton;
-            }
-            else if (x2 >= 0 && y2 < 0) {
-                MotSpeed[0] = (-2 * MagAndSine[3] - 1) * MagAndSine[1] * spdbutton;
+                MotSpeed[0] = (2 * MagAndSine[3] - 1) * MagAndSine[1] * spdbutton;
                 MotSpeed[1] = MagAndSine[1] * spdbutton;
             }
+            else if (x2 >= 0 && y2 < 0) {
+                MotSpeed[0] = -MagAndSine[1] * spdbutton;
+                MotSpeed[1] = (2 * MagAndSine[3] + 1) * MagAndSine[1] * spdbutton;
+            }
             else if (x2 < 0 && y2 < 0) {
-                MotSpeed[0] = MagAndSine[1] * spdbutton;
-                MotSpeed[1] = (-2 * MagAndSine[3] - 1)  * MagAndSine[1] * spdbutton;
+                MotSpeed[0] = (2 * MagAndSine[3] + 1) * MagAndSine[1] * spdbutton;
+                MotSpeed[1] = -MagAndSine[1] * spdbutton;
             }
         }
         
@@ -105,32 +90,32 @@ public class Calcs {
                 MotSpeed[1] = 1;
                 break;
             case 45:
-                MotSpeed[0] = 1;
+                MotSpeed[0] = 0.4;
                 MotSpeed[1] = 0;
                 break;
             case 90:
-                MotSpeed[0] = 1;
-                MotSpeed[1] = -1;
+                MotSpeed[0] = 0.4;
+                MotSpeed[1] = -0.4;
                 break;
             case 135:
-                MotSpeed[0] = -1;
-                MotSpeed[1] = 0;
+                MotSpeed[0] = -0.4;
+                MotSpeed[1] = 0.4;
                 break;
             case 180:
                 MotSpeed[0] = -1;
                 MotSpeed[1] = -1;
                 break;
             case 225:
-                MotSpeed[0] = 0;
-                MotSpeed[1] = -1;
+                MotSpeed[0] = 0.4;
+                MotSpeed[1] = -0.4;
                 break;
             case 270:
-                MotSpeed[0] = -1;
-                MotSpeed[1] = 1;
+                MotSpeed[0] = -0.4;
+                MotSpeed[1] = 0.4;
                 break;
             case 315:
                 MotSpeed[0] = 0;
-                MotSpeed[1] = 1;
+                MotSpeed[1] = 0.4;
                 break;
             default:
                 MotSpeed[0] = 0;
