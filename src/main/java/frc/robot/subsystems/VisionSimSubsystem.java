@@ -66,7 +66,6 @@ public class VisionSimSubsystem extends SubsystemBase {
     }
   }
 
-  /** Getter para permitir que comandos acessem a câmera. */
   public PhotonCamera getCamera() {
     return camera;
   }

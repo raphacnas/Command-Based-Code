@@ -59,7 +59,6 @@ public class DriveCommand extends Command {
   
   @Override
   public void execute() {
-    // Called every time the scheduler runs while the command is scheduled.
     SmartDash();
     CalcButton();
     joyValues();
@@ -119,7 +118,7 @@ public void joyValues(){
   this.y1 = -joydelicio.getRawAxis(Constants.Y1_ID);
   this.y2 = joydelicio.getRawAxis(Constants.Y2_ID);
 
-  this.Ltrig = joydelicio.getRawAxis(Constants.Ltrig_ID);
+  this.Ltrig = -joydelicio.getRawAxis(Constants.Ltrig_ID);
   this.Rtrig = joydelicio.getRawAxis(Constants.Rtrig_ID);
 
   POG = joydelicio.getPOV();

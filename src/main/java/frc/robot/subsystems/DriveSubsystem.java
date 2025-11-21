@@ -37,12 +37,6 @@ public class DriveSubsystem extends SubsystemBase {
   public ADXRS450_GyroSim gyroSim = new ADXRS450_GyroSim(gyro);
 
   public DifferentialDrivetrainSim driveSim;
-  // =   DifferentialDrivetrainSim.createKitbotSim(
-  //     Constants.DriveConstants.kDrivetrainGearbox,
-  //     Constants.DriveConstants.kDriveGearing,
-  //     Constants.DriveConstants.kTrackWidthMeters,
-  //     Constants.DriveConstants.kWheelDiameterMeters,
-  //     null)
 
   private final NetworkTableEntry poseEntry;
   private final Field2d field = new Field2d();

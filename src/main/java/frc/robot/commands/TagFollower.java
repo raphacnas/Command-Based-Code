@@ -1,21 +1,19 @@
 package frc.robot.commands;
 
 import org.photonvision.PhotonCamera;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSimSubsystem;
 
-public class TagFollowerCommand extends Command {
+public class TagFollower extends Command {
 
   private DriveSubsystem SubSys;
-  private VisionSimSubsystem visionSim; 
-  Timer timer = new Timer();
+  private VisionSimSubsystem visionSim;
 
   double tx, tv, ta, Rm, Lm;
 
-  public TagFollowerCommand(DriveSubsystem SubSys, VisionSimSubsystem visionSim) {
+  public TagFollower(DriveSubsystem SubSys, VisionSimSubsystem visionSim) {
     this.SubSys = SubSys;
     this.visionSim = visionSim;
 
@@ -27,12 +25,12 @@ public class TagFollowerCommand extends Command {
 
   @Override
   public void execute() {
-    TagFollower();  
+    tagFollower();  
     SmartDashboard();
     SubSys.setMotorSpeeds(Lm, Rm);
   }
 
-  public void TagFollower() {
+  public void tagFollower() {
 
     PhotonCamera cam = visionSim.getCamera();
     var result = cam.getLatestResult();
