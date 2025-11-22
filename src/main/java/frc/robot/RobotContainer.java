@@ -1,6 +1,7 @@
 package frc.robot;
 
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.GoToPose;
 import frc.robot.commands.TagFollower;
 import frc.robot.simulator.simCommands.TagFollowerSim;
 import frc.robot.simulator.simSubsystems.SimSubsystem;
@@ -39,7 +40,9 @@ public class RobotContainer {
   
   public Command getAutonomousCommand() {
     SequentialCommandGroup auto = new SequentialCommandGroup(
-      new TagFollower(SubSys, 0.4)
+      new GoToPose(SubSys, 2, 2, 5),
+      new TagFollower(SubSys, 0.4),
+      new TagFollowerSim(SimSubSys, VisSubSys)
     );
     
     return auto;

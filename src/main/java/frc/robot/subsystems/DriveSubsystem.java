@@ -44,9 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
     Rm = rSpeed;
   
     LMot1.set(ControlMode.PercentOutput, lSpeed);
-    LMot2.set(ControlMode.PercentOutput, lSpeed);
     RMot1.set(ControlMode.PercentOutput, rSpeed);
-    RMot2.set(ControlMode.PercentOutput, rSpeed);
   }
 
   @Override
