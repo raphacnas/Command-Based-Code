@@ -1,34 +1,47 @@
 package frc.robot;
 
-import frc.robot.commands.TagFollower;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.GoToPoseSim;
+import frc.robot.commands.TagFollower;
+import frc.robot.simulator.simCommands.TagFollowerSim;
+import frc.robot.simulator.simSubsystems.SimSubsystem;
+import frc.robot.simulator.simSubsystems.VisionSimSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.VisionSimSubsystem;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class RobotContainer {
 
-  private final DriveSubsystem DriveSubSys = new DriveSubsystem();
-  private final VisionSimSubsystem SimSubSys = new VisionSimSubsystem();
-  private Joystick joydelicio = new Joystick(Constants.joydelicio_ID);
+  private final DriveSubsystem SubSys = new DriveSubsystem();
+  private final Joystick joydelicio = new Joystick(Constants.joydelicio_ID);
+  private SimSubsystem SimSubSys;
+  private VisionSimSubsystem VisSubSys;
 
   public RobotContainer() {
-    DriveCommand DefaultDrive = new DriveCommand(DriveSubSys, joydelicio);
-    DriveSubSys.setDefaultCommand(DefaultDrive);
+
+    if (RobotBase.isSimulation()) {
+      SimSubSys = new SimSubsystem();
+      VisSubSys = new VisionSimSubsystem();
+    }
+
+    DriveCommand DefaultDrive = new DriveCommand(SubSys, SimSubSys, joydelicio);
+    SubSys.setDefaultCommand(DefaultDrive); // ALTERE AQUI PARA MUDAR O SUBSISTEMA
   }
 
   public void simulationPeriodic() {
-    SimSubSys.updateSimPose(DriveSubSys.getPose2D());
+    if (RobotBase.isSimulation() && VisSubSys != null && SimSubSys != null) {
+      VisSubSys.updateSimPose(SimSubSys.getPose2D());
+  }
 }
 
   // private void configureBindings() {}
   
   public Command getAutonomousCommand() {
-    // return new TagFollower(DriveSubSys, SimSubSys);
-    return new GoToPoseSim(DriveSubSys, new Pose2d(2.0, 1.0, new Rotation2d(0.0)));
+    SequentialCommandGroup auto = new SequentialCommandGroup(
+      new TagFollower(SubSys, 0.4)
+    );
+    
+    return auto;
+    }
   }
-}

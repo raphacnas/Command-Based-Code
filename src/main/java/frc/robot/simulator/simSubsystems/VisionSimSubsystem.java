@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.simulator.simSubsystems;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.simulation.PhotonCameraSim;
@@ -20,11 +20,11 @@ public class VisionSimSubsystem extends SubsystemBase {
   private PhotonCameraSim cameraSim;
   private VisionSystemSim visionSim;
 
-  // Transformo que posiciona a “afonsoCamera” no robô
+  // Transform que posiciona a limelight no robô
   private final Transform3d cameraTransform =
       new Transform3d(
           new Translation3d(-0.20, 0, 0.40),   // X,Y,Z em metros
-          new Rotation3d(0.0, Math.toRadians(25), 0.0) // Pitch 25°
+          new Rotation3d(0.0, Math.toRadians(25), 0.0) 
       );
 
   public VisionSimSubsystem() {
@@ -40,9 +40,8 @@ public class VisionSimSubsystem extends SubsystemBase {
       props.setAvgLatencyMs(30);
       props.setLatencyStdDevMs(5);
 
-      // Layout oficial do Reefscape 2025
-      AprilTagFieldLayout layout =
-          AprilTagFields.k2025ReefscapeAndyMark.loadAprilTagLayoutField();
+      // Layout da arena
+      AprilTagFieldLayout layout = AprilTagFields.k2025ReefscapeAndyMark.loadAprilTagLayoutField();
 
       // Cria o sistema de visão
       visionSim = new VisionSystemSim("VisionSimulation");

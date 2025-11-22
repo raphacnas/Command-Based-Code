@@ -1,77 +1,72 @@
 package frc.robot.commands;
 
-import org.photonvision.PhotonCamera;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.VisionSimSubsystem;
 
 public class TagFollower extends Command {
 
-  private DriveSubsystem SubSys;
-  private VisionSimSubsystem visionSim;
+  NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight-front");
+  DriveSubsystem SubSys;
+  private final double Rspeed;
 
   double tx, tv, ta, Rm, Lm;
 
-  public TagFollower(DriveSubsystem SubSys, VisionSimSubsystem visionSim) {
+  public TagFollower(DriveSubsystem SubSys, double Rspeed) {
+
     this.SubSys = SubSys;
-    this.visionSim = visionSim;
+    this.Rspeed = Rspeed;
 
     addRequirements(SubSys);
-}
+  }
 
   @Override
   public void initialize() {}
 
   @Override
   public void execute() {
-    tagFollower();  
+    tagFollower();
     SmartDashboard();
+
     SubSys.setMotorSpeeds(Lm, Rm);
   }
 
   public void tagFollower() {
-
-    PhotonCamera cam = visionSim.getCamera();
-    var result = cam.getLatestResult();
-
-    if (!result.hasTargets()) {
-      Lm = 0.3;
-      Rm = -0.3;
-      SubSys.setMotorSpeeds(Lm, Rm);
-      return;
-    }
-
-    var best = result.getBestTarget();
-
-    tx = best.getYaw();
-    ta = best.getArea();
+    tx = limelight.getEntry("tx").getDouble(0.0);
+    ta = limelight.getEntry("ta").getDouble(0.0);
+    tv = limelight.getEntry("tv").getDouble(0.0);
 
     // Ajustes finos
     double rot_percent = 0.01;     
-    double fwd_percent = 0.5;      
+    double fwd_percent = 0.2;      
     double targetArea = 1.25;  
 
-
-    double rot = rot_percent * tx; 
-    double forward = fwd_percent * (targetArea - ta);
+    if (tv == 0){
+      Rm = Rspeed; Lm = Rspeed; 
+    } else { 
+      if (ta >= targetArea) { 
+        Rm = 0; Lm = 0; 
+      } else {
   
-    forward = Math.max(-0.6, Math.min(forward, 0.6));
-    rot = Math.max(-0.4, Math.min(rot, 0.4));
-
-    if (ta >= targetArea) {
-      forward = 0;
-    }
-  
-    Lm = forward + rot;
-    Rm = forward - rot;
+        double rot = rot_percent * tx; 
+        double forward = fwd_percent * (targetArea - ta);
+      
+        forward = Math.max(-0.6, Math.min(forward, 0.6));
+        rot = Math.max(-0.4, Math.min(rot, 0.4));
+      
+        Lm = forward + rot;
+        Rm = forward - rot;
+      }
+    } 
   }
 
   public void SmartDashboard() {
     SmartDashboard.putNumber("** - Tx", tx);
     SmartDashboard.putNumber("** - Ta", ta);
+    SmartDashboard.putNumber("** - Tv", tv);
   }
-  
   @Override
   public void end(boolean interrupted) {}
 

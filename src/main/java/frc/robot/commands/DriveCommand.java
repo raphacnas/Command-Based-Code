@@ -1,24 +1,20 @@
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.MathFunctions.Calcs;
+import frc.robot.simulator.simSubsystems.SimSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DriveCommand extends Command {
 
+  @SuppressWarnings("unused")
   private DriveSubsystem SubSys;
+  @SuppressWarnings("unused")
+  private SimSubsystem SimSubSys;
   private Joystick joydelicio;
-
-  private final VictorSPX RMot1 = new VictorSPX(Constants.RMot1_ID);
-  private final VictorSPX RMot2 = new VictorSPX(Constants.RMot2_ID);
-  private final VictorSPX LMot1 = new VictorSPX(Constants.LMot1_ID);
-  private final VictorSPX LMot2 = new VictorSPX(Constants.LMot2_ID);
 
   int POG;
   boolean a, b, x;
@@ -26,39 +22,24 @@ public class DriveCommand extends Command {
 
   private final Calcs Calcs = new Calcs();
   
-  /** Creates a new DefaultDriveCommand. */
-  public DriveCommand(DriveSubsystem drive, Joystick joyzao) {
-    
-    this.SubSys = drive;
-    this.joydelicio = joyzao;
+  public DriveCommand(DriveSubsystem SubSys, SimSubsystem SimSubSys, Joystick joydelicio) {
 
-    addRequirements(SubSys);
+    this.SubSys = SubSys;
+    this.SimSubSys = SimSubSys;
+    this.joydelicio = joydelicio;
+
+    addRequirements(SubSys);   // MUDE AQUI PARA ALTERAR O SUBSISTEMA
   }
 
   @Override
   public void initialize() {
-
-    RMot1.configNeutralDeadband(Constants.Deadzone);
-    RMot2.configNeutralDeadband(Constants.Deadzone);
-    LMot1.configNeutralDeadband(Constants.Deadzone);
-    LMot2.configNeutralDeadband(Constants.Deadzone);
-
-    RMot1.setInverted(true);
-    RMot2.setInverted(true);
-    LMot1.setInverted(false);
-    LMot2.setInverted(false);
-
-    RMot1.setNeutralMode(NeutralMode.Brake);
-    RMot2.setNeutralMode(NeutralMode.Brake);
-    LMot1.setNeutralMode(NeutralMode.Brake);
-    LMot2.setNeutralMode(NeutralMode.Brake);
-
     spdbutton = 1; Ltrig = 0; Rtrig = 0; Lm = 0; Rm = 0;
   }
 
   
   @Override
   public void execute() {
+
     SmartDash();
     CalcButton();
     joyValues();
@@ -92,18 +73,16 @@ public class DriveCommand extends Command {
         Rm = AnalogSpeeds[1];
       }
 
-    } SubSys.setMotorSpeeds(Lm, Rm);    
+    } SubSys.setMotorSpeeds(Lm, Rm); // MUDE AQUI PARA ALTERAR O SUBSISTEMA
   }
 
 //////////////////////////////////////////////////////////////
   @Override
   public void end(boolean interrupted) {
-    // Called once the command ends or is interrupted.
   }
   
   @Override
   public boolean isFinished() {
-    // Returns true when the command should end.
     return false;
   }
 //////////////////////////////////////////////////////////////
